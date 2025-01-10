@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar un elemento a la lista</title>
+  </head>
+  <body>
+    <h1>Ejemplo de crear y agregar un nodo</h1>
+
+    <!-- Lista existente -->
+    <ul id="miLista">
+      <li>Pan</li>
+      <li>Leche</li>
+      <li>Huevos</li>
+    </ul>
+
+    <!-- Botón para agregar un nuevo elemento -->
+    <button onclick="agregarElemento()">Agregar 'Agua'</button>
+
+    <script>
+      // Función para agregar un nuevo elemento a la lista
+      function agregarElemento() {
+        // Creo un nodo de tipo LI
+        var nuevoNodo = document.createElement('LI');
+
+        // Creo un nodo de texto con el contenido "Agua"
+        nuevoNodo.textContent = 'Agua';
+        //var nodoTexto = document.createTextNode('Agua');
+
+        // Asocio el nodo de texto al nodo LI
+        //  nuevoNodo.appendChild(nodoTexto);
+
+        // Añado el nodo LI creado a la lista existente con id="miLista"
+        document.getElementById('miLista').appendChild(nuevoNodo);
+      }
+    </script>
+  </body>
+</html>

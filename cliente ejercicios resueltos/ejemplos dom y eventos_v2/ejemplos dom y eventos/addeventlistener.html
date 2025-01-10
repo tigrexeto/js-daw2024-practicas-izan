@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos con addEventListener</title>
+  </head>
+  <body>
+    <h1>Ejemplo de manejo de eventos</h1>
+
+    <!-- Un botón al que se le añadirán varios eventos -->
+    <button id="miObjeto">Haz clic o presiona una tecla</button>
+
+    <script>
+      // Función que maneja los eventos
+      function mostrarMensaje(evento) {
+        // Si el evento es 'keyup', muestra la tecla presionada
+        if (evento.type === 'keyup') {
+          alert('Tecla presionada: ' + evento.key);
+        }
+        // Si el evento es 'click', muestra las coordenadas del clic
+        else if (evento.type === 'click') {
+          alert(
+            'Coordenadas del clic: ' + evento.clientX + ' ' + evento.clientY
+          );
+        }
+      }
+
+      // Añadimos el evento click al botón
+      document
+        .getElementById('miObjeto')
+        .addEventListener('click', mostrarMensaje);
+
+      // Añadimos el evento keyup al documento
+      document.addEventListener('keyup', mostrarMensaje);
+
+      // Añadimos un evento dblclick al botón con una función anónima
+      // no se ejecutará nunca ya que se entra primero en el click
+      document
+        .getElementById('miObjeto')
+        .addEventListener('dblclick', function () {
+          alert('Código metido directamente (dblclick)');
+        });
+    </script>
+  </body>
+</html>

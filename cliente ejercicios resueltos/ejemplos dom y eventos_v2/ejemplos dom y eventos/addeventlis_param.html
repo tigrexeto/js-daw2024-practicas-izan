@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos con Parámetros</title>
+  </head>
+  <body>
+    <!-- Botones para realizar los clics -->
+    <button id="Boton1_bt">Botón 1</button>
+    <button id="Boton2_bt">Botón 2</button>
+
+    <script>
+      // Función que muestra un mensaje con el número del botón
+      function Imprimir(numero) {
+        alert('Se ha elegido el botón ' + numero);
+      }
+
+      // Obtener los botones por su ID
+      const boton1 = document.getElementById('Boton1_bt');
+      const boton2 = document.getElementById('Boton2_bt');
+
+      // Añadir los event listeners con las funciones anónimas que llaman a Imprimir con el parámetro correspondiente
+      boton1.addEventListener('click', function () {
+        Imprimir(1); // Llamar a Imprimir con el parámetro 1
+      });
+
+      boton2.addEventListener('click', function () {
+        Imprimir(2); // Llamar a Imprimir con el parámetro 2
+      });
+    </script>
+  </body>
+</html>

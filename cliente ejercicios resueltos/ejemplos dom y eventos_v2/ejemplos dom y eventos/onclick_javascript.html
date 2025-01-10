@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evento onclick</title>
+  </head>
+  <body>
+    <h1>Ejemplo: Evento onclick con JavaScript</h1>
+
+    <!-- Botón al que se le asignará el evento onclick -->
+    <button id="miObjeto">Haz clic aquí</button>
+
+    <script>
+      // Función que muestra un mensaje de alerta
+      function mostrarMensaje() {
+        alert('Hola');
+      }
+
+      // Asignar la función mostrarMensaje al evento onclick del elemento con id="miObjeto"
+      document.getElementById('miObjeto').onclick = mostrarMensaje;
+    </script>
+  </body>
+</html>

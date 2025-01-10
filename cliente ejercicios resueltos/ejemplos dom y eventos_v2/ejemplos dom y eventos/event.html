@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evento onclick y onkeyup</title>
+  </head>
+  <body>
+    <h1>Ejemplo: Manejo de eventos con JavaScript</h1>
+
+    <!-- Botón al que se le asignará el evento onclick -->
+    <div id="miObjeto">Haz clic aquí</div>
+
+    <script>
+      // Función para manejar los eventos
+      function mostrarMensaje(evento) {
+        // Si el tipo de evento es "keyup", muestra la tecla presionada
+        if (evento.type === 'keyup') {
+          alert('Tecla presionada: ' + evento.key);
+        }
+        // Si el tipo de evento es "click", muestra las coordenadas del clic
+        else if (evento.type === 'click') {
+          alert(
+            'Coordenadas del clic: ' + evento.clientX + ', ' + evento.clientY
+          );
+        }
+      }
+
+      // Asignar la función mostrarMensaje al evento onclick del botón
+      document.getElementById('miObjeto').onclick = mostrarMensaje;
+
+      // Asignar la función mostrarMensaje al evento onkeyup del documento
+      document.onkeyup = mostrarMensaje;
+    </script>
+  </body>
+</html>

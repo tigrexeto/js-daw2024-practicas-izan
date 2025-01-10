@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form style="display: flex; flex-direction: column; width: fit-content">
+        <h1>Formulari d'inscripció Cyberwall</h1>
+            <label for="name">Name:</label>
+            <input required type="text" id="name" name="user_name" />
+         
+            <label for="user">Create a user name:</label>
+            <input required type="text" id="user" name="user_username" />
+         
+            <label for="password">Create a password:</label>
+            <input required type="password" id="password" name="user_password"></input>
+          
+            <label for="bday">Birthday:</label>
+            <input type="date" id="bday" name="user_bday"></input>
+       
+            <label for="job">I am:</label>
+            <select name="joboptions" id="job">
+                <option value="student">a student</option>
+                <option value="teacher">a teacher</option>
+                <option value="businessowner">a business owner</option>
+                <option value="self-employed">self-employed</option>
+                <option value="other">other</option>
+            </select>
+         
+            <label for="phonenumber">Mobile phone:</label>
+            <input required type="tel" id="phonenumber" name="user_phonenumber"></input>
+         
+            <label for="englishlevel">Select your English level (0-10):</label>
+            <input type="range" min="0" max="10" id="englishlevel" name="user_englishlevel"></input>
+          
+            <input type="button" value="Sign me up" />
+
+      </form>
+         
+</body>
+</html>

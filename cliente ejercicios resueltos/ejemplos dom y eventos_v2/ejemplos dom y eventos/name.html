@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejemplo getElementsByName</title>
+  </head>
+  <body>
+    <h1>Marcar todos los checkboxes</h1>
+
+    <!-- Elementos con el atributo name="alumnos" -->
+    <label><input type="checkbox" name="alumnos" /> Alumno 1</label><br />
+    <label><input type="checkbox" name="alumnos" /> Alumno 2</label><br />
+    <label><input type="checkbox" name="alumnos" /> Alumno 3</label><br />
+    <label><input type="checkbox" name="otros" /> Otro elemento</label><br />
+
+    <!-- Botón para marcar los checkboxes -->
+    <button onclick="marcarCheckboxes()">Marcar todos los checkboxes</button>
+
+    <script>
+      // Función que marca todos los checkboxes con name="alumnos"
+      function marcarCheckboxes() {
+        var x = document.getElementsByName('alumnos'); // Seleccionamos los elementos con name="alumnos"
+        var i;
+        for (i = 0; i < x.length; i++) {
+          if (x[i].type === 'checkbox') {
+            // Verificamos que el elemento es un checkbox
+            x[i].checked = true; // Marcamos el checkbox
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contar y mostrar elementos &lt;p&gt;</title>
+  </head>
+  <body>
+    <h1>Ejemplo: Contar y mostrar elementos &lt;p&gt; en un div</h1>
+
+    <div id="miDiv">
+      <p>Primer párrafo dentro del div.</p>
+      <p>Segundo párrafo dentro del div.</p>
+      <p>Tercer párrafo dentro del div.</p>
+    </div>
+
+    <button onclick="contarParrafos()">Contar &lt;p&gt; y mostrar HTML</button>
+
+    <script>
+      function contarParrafos() {
+        var myDiv = document.getElementById('miDiv');
+        var losP = myDiv.getElementsByTagName('p');
+        var num = losP.length;
+        alert('Hay ' + num + ' <p> elementos en el elemento miDiv');
+        if (num > 0) {
+          alert('En el primer <p>, el HTML asociado es: ' + losP[0].innerHTML);
+        }
+      }
+    </script>
+  </body>
+</html>

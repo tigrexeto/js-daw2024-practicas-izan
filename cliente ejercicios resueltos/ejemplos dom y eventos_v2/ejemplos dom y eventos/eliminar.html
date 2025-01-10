@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eliminar un Párrafo</title>
+  </head>
+  <body>
+    <h1>Ejemplo de removeChild</h1>
+
+    <!-- Párrafos -->
+    <div id="contenedor">
+      <p id="miParrafo">Este es el párrafo que será eliminado.</p>
+      <p>Este párrafo no será eliminado.</p>
+    </div>
+
+    <!-- Botón para eliminar el párrafo -->
+    <button onclick="eliminarParrafo()">Eliminar párrafo</button>
+
+    <script>
+      // Función para eliminar el párrafo con id="miParrafo"
+      function eliminarParrafo() {
+        var parrafo = document.getElementById('miParrafo'); // Selecciona el párrafo con id="miParrafo"
+
+        // Verifica si el párrafo existe
+        if (parrafo) {
+          //parrafo.parentNode.removeChild(parrafo); // Elimina el párrafo del DOM
+          parrafo.remove(); //también correcto pero no funciona en IE
+        } else {
+          alert('El párrafo ya no existe.');
+        }
+      }
+    </script>
+  </body>
+</html>

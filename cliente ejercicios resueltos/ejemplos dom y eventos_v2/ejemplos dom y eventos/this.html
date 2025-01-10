@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Div con eventos onmouseover y onmouseout</title>
+  </head>
+  <body>
+    <h1>Ejemplo: Cambiar color del borde al pasar el mouse</h1>
+
+    <!-- Div con estilos y eventos -->
+    <!-- <div
+      id="cont"
+      style="
+        width: 150px;
+        height: 60px;
+        border: thin solid silver;
+        text-align: center;
+        line-height: 60px;
+      "
+      onmouseover="document.getElementById('cont').style.borderColor='black';"
+      onmouseout="document.getElementById('cont').style.borderColor='red';"
+    >
+      Contenidos
+    </div> -->
+    <div
+      id="cont"
+      style="width: 150px; height: 60px; border: thin solid silver"
+      onmouseover="this.style.borderColor='black';"
+      onmouseout="this.style.borderColor='red';"
+    >
+      Contenidos
+    </div>
+  </body>
+</html>

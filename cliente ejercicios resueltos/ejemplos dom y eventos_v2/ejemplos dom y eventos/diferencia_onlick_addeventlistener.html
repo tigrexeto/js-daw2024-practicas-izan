@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos con addEventListener</title>
+  </head>
+  <body>
+    <h1>Ejemplo de manejo de eventos</h1>
+
+    <!-- Un botón al que se le añadirán varios eventos -->
+    <button id="miObjeto">Haz clic o presiona una tecla</button>
+
+    <script>
+      function evento1() {
+        alert('Evento 1');
+      }
+
+      function evento2() {
+        alert('Evento 2');
+      }
+
+      const boton = document.getElementById('miObjeto');
+
+      // boton.onclick = evento1; // Asignamos evento1
+      // boton.onclick = evento2; // Sobrescribimos con evento2
+
+      // Usamos addEventListener para añadir ambos eventos al mismo clic
+      boton.addEventListener('click', evento1);
+      boton.addEventListener('click', evento2);
+
+      // Solo "Evento 2" se ejecutará al hacer clic
+    </script>
+  </body>
+</html>
