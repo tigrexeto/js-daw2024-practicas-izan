@@ -51,7 +51,7 @@ function Rectangulo(width, height){
     
 }
 
-/* Ejemplo de uso*/
+/* Pruebas con diferentes valores */
 const rect1 = new Rectangulo(4, 5);
 console.log(rect1.calcularArea()); // 20
 

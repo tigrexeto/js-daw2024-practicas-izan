@@ -9,7 +9,7 @@ function ordenarYActualizar(){
     //ya convertido en array de strings, ordenarla
     arrayPalabras.sort();
 
-    //borrar lista del html para volver a crearla con nueva lista ordenada
+    //borrar los elementos de la lista para volver a crearla luego
     let unorderedList = document.querySelector("ul");
     unorderedList.innerHTML = "";
 
@@ -25,7 +25,7 @@ function ordenarYActualizar(){
 setTimeout(() => {
     const ordenar = confirm("¿Quieres ordenar la lista alfabéticamente?");
     if (ordenar) {
-        // Llamar a la función que ordena y actualiza la lista
+        //llamar a la función que ordena y actualiza la lista
         ordenarYActualizar();
     }
 }, 3000);
