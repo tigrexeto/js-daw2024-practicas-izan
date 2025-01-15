@@ -38,7 +38,7 @@ function startEvent() {
 
     /* o bien por interacción usuario */
     document.addEventListener("keydown", (event) => {
-      /* event.preventDefault(); cuándo hace falta?*/
+      event.preventDefault();
       keysPressed[event.key] = true;
       if (keysPressed["Control"] && event.key === "F10") {
         clearTimeout(timer);
@@ -48,7 +48,7 @@ function startEvent() {
 
     /* vaciamos el array, solo queremos su contenido mientras se esté pulsando la tecla */
     document.addEventListener("keyup", (event) => {
-      delete this.keysPressed[event.key];
+      delete keysPressed[event.key];
     });
   });
 }
@@ -69,8 +69,9 @@ startEvent()
 
 /* LOGIN */
 /*const regexEmail =  caracter/es + @ + caracter/es + . caracter/es */
-let userEmail = document.getElementById("email").value;
+/* let userEmail = document.getElementById("email").value;
 
 if (test(regexEmail, userEmail)) {
 } else {
 }
+ */
