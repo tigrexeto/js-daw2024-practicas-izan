@@ -104,3 +104,14 @@ function validateEmail() {
     }, 0);
   }
 }
+
+
+/* COOKIES */
+
+// Función para guardar cookies
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //establece el tiempo de expiración
+  var expires = "expires=" + d.toUTCString(); //fecha de expiración en formato UTC
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //guarda la cookie
+}
