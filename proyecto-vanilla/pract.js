@@ -3,6 +3,7 @@
 
 /* al pulsar teclas el usuario, guardar en un array */
 /* gavsblog! */
+/* REVISAR SCOPE DE LET Y SI ESTE ARRAY AQUÍ */
 let keysPressed = {};
 
 /* después remove con keydown ctrl + f10 o pasados 5 segundos */
@@ -69,9 +70,21 @@ startEvent()
 
 /* LOGIN */
 /*const regexEmail =  caracter/es + @ + caracter/es + . caracter/es */
-/* let userEmail = document.getElementById("email").value;
+/* REGEX DENTRO O FUERA D LA FUNCIÓN */
+let emailInput = document.getElementById("email");
+let emailValue = emailInput.value;
+const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (test(regexEmail, userEmail)) {
-} else {
+function validateEmail(){
+  if (test(regexEmail, userEmail)) {
+    /* llevar a pantalla 2 */
+    window.location.href = "pantalla2.html";
+  } else {
+    alert("El correo introducido no tiene un formato válido");
+    emailInput.select();
+  }
 }
- */
+
+emailInput.addEventListener("focusout", validateEmail);
+
+
