@@ -79,10 +79,12 @@ function validateEmail() {
   let emailInput = document.getElementById("emailInput");
   let emailValue = emailInput.value;
   if (regexEmail.test(emailValue)) {
+    //guardar info en cookie
+
+    saveUserCookie(emailValue);
     /* llevar a pantalla 2 */
     window.location.href = "pantalla2.html";
   } else {
-
     const errorDiv = document.getElementById("errorDiv");
 
     //crear div solo si no existe ya el mensaje
@@ -92,7 +94,8 @@ function validateEmail() {
       newErrorDiv.id = "errorDiv";
       newErrorDiv.style.color = "red";
       newErrorDiv.style.marginTop = "10px";
-      newErrorDiv.textContent = "El correo introducido no tiene un formato válido";
+      newErrorDiv.textContent =
+        "El correo introducido no tiene un formato válido";
       document.body.appendChild(newErrorDiv);
     } else {
       errorDiv.textContent = "El correo introducido no tiene un formato válido";
@@ -106,12 +109,63 @@ function validateEmail() {
 }
 
 
-/* COOKIES */
+function saveUserCookie(email) {
+  //intentamos obtener la cookie existente
+  const existingCookie = getCookie("userData");
+  let userData;
 
-// Función para guardar cookies
+  //si existe, parsear a objeto json los datos de la cookie que estarían guardados como string json
+  if (existingCookie) {
+    userData = JSON.parse(existingCookie);
+  } else {
+  //si no existe, crear un nuevo json
+  //vacíos date y time aunque sea 1ª creación de user porque a continuación actualizaremos la fecha
+    userData = {
+      email: email,
+      lastLogin: {  
+        date: "",
+        time: ""
+      },
+      questions: [] //inicializar vacío, se rellenará después
+    };
+  }
+
+  // Actualizar el último login, independientemente de si había datos o no
+  const now = new Date();
+  userData.lastLogin = {
+    date: now.toLocaleDateString(),
+    time: now.toLocaleTimeString()
+  };
+
+  // Guardar la cookie actualizada como string JSON
+  setCookie("userData", JSON.stringify(userData), 7);
+}
+
+
+
+
+/* COOKIES */
+/* FUNCIONES */
+// GUARDAR
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); //establece el tiempo de expiración
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000); //establece el tiempo de expiración
   var expires = "expires=" + d.toUTCString(); //fecha de expiración en formato UTC
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //guarda la cookie
+}
+
+// RECUPERAR
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(";");
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
