@@ -1,5 +1,3 @@
-
-
 /* INICIO */
 /* Pantalla inicial "BIENVENIDO" + pulsar Ctrl + F10 || setTimeOut 5000 */
 
@@ -71,8 +69,6 @@ startEvent()
     console.log(`Error: ${error}`);
   });
 
-
-
 /* LOGIN */
 /*const regexEmail =  caracter/es + @ + caracter/es + . caracter/es */
 /* REGEX DENTRO O FUERA D LA FUNCIÓN */
@@ -83,11 +79,15 @@ function validateEmail() {
   let emailInput = document.getElementById("emailInput");
   let emailValue = emailInput.value;
   //si es válido, añadir a cookie y redirigir
-  if (regexEmail.test(emailValue)){
+  if (regexEmail.test(emailValue)) {
+    //guardamos en cookie de usuarios
     userLogin(emailValue);
+    //y creamos una cookie con el usuario actual que acabe de iniciar sesión
+    setCookie("currentUser", emailValue, 1);
+    //reidirigimos a pantalla2, desde ella sabremos qué usuario de todos los de usersCookie acaba de logearse
     window.location.href = "pantalla2.html";
   } else {
-  //si no es válido, sacar mensaje de error
+    //si no es válido, sacar mensaje de error
     const errorDiv = document.getElementById("errorDiv");
     //crear div solo si no existe ya el mensaje
     //con alert me saltaba la ventana de alert cada poco si no modificaba rápido el input
@@ -107,11 +107,8 @@ function validateEmail() {
       emailInput.focus();
       emailInput.select();
     }, 0);
-
   }
-
 }
-
 
 function initializeUsers() {
   //intentamos obtener la cookie existente
@@ -126,48 +123,29 @@ function initializeUsers() {
     // Y guardar ese objeto vacío en la cookie
     setCookie("users", JSON.stringify(usersCookie), 7);
   }
-  
+
   return usersCookie;
 }
 
-
-function userLogin(email){
+function userLogin(email) {
   //si el email es válido (si es null no entrará en el if)
-  if(email) {
+  if (email) {
     //obtenemos o creamos la cookie
     let usersCookie = initializeUsers();
-    //no hace falta comprobar si existe ya ese usuario en la cookie, porque si existe, simplemente actualizará la fecha guardada anteriormente
-    //añadimos el usuario al json de usuarios
-    usersCookie[email] = new Date().toLocaleString();
-    //y guardamos la cookie con los datos actualizados
+    
+    //previousLogin: Se actualiza solo si ya existe un valor previo en lastLogin
+    let previousLogin = null;
+    if (usersCookie[email] && usersCookie[email].lastLogin) {
+      previousLogin = usersCookie[email].lastLogin;
+    }
+    
+    //lastLogin: Siempre se actualiza al momento actual
+    usersCookie[email] = {
+      lastLogin: new Date().toLocaleString(),
+      previousLogin: previousLogin,
+    };
+
+    // Guardamos la cookie actualizada
     setCookie("users", JSON.stringify(usersCookie), 7);
   }
-}
-
-
-
-
-/* COOKIES */
-// GUARDAR
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000); //establece el tiempo de expiración
-  var expires = "expires=" + d.toUTCString(); //fecha de expiración en formato UTC
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"; //guarda la cookie
-}
-
-// RECUPERAR
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(";");
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }
