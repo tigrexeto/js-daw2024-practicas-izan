@@ -1,3 +1,5 @@
+
+
 /* INICIO */
 /* Pantalla inicial "BIENVENIDO" + pulsar Ctrl + F10 || setTimeOut 5000 */
 
@@ -69,6 +71,8 @@ startEvent()
     console.log(`Error: ${error}`);
   });
 
+
+
 /* LOGIN */
 /*const regexEmail =  caracter/es + @ + caracter/es + . caracter/es */
 /* REGEX DENTRO O FUERA D LA FUNCIÓN */
@@ -78,15 +82,13 @@ const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 function validateEmail() {
   let emailInput = document.getElementById("emailInput");
   let emailValue = emailInput.value;
-  if (regexEmail.test(emailValue)) {
-    //guardar info en cookie
-
-    saveUserCookie(emailValue);
-    /* llevar a pantalla 2 */
+  //si es válido, añadir a cookie y redirigir
+  if (regexEmail.test(emailValue)){
+    userLogin(emailValue);
     window.location.href = "pantalla2.html";
   } else {
+  //si no es válido, sacar mensaje de error
     const errorDiv = document.getElementById("errorDiv");
-
     //crear div solo si no existe ya el mensaje
     //con alert me saltaba la ventana de alert cada poco si no modificaba rápido el input
     if (!errorDiv) {
@@ -105,47 +107,47 @@ function validateEmail() {
       emailInput.focus();
       emailInput.select();
     }, 0);
+
   }
+
 }
 
 
-function saveUserCookie(email) {
+function initializeUsers() {
   //intentamos obtener la cookie existente
-  const existingCookie = getCookie("userData");
-  let userData;
+  let usersCookie = getCookie("users");
 
-  //si existe, parsear a objeto json los datos de la cookie que estarían guardados como string json
-  if (existingCookie) {
-    userData = JSON.parse(existingCookie);
+  // Si existe la cookie, la parseamos de string JSON a objeto
+  if (usersCookie) {
+    usersCookie = JSON.parse(usersCookie);
   } else {
-  //si no existe, crear un nuevo json
-  //vacíos date y time aunque sea 1ª creación de user porque a continuación actualizaremos la fecha
-    userData = {
-      email: email,
-      lastLogin: {  
-        date: "",
-        time: ""
-      },
-      questions: [] //inicializar vacío, se rellenará después
-    };
+    // Si no existe, crear un nuevo objeto vacío
+    usersCookie = {};
+    // Y guardar ese objeto vacío en la cookie
+    setCookie("users", JSON.stringify(usersCookie), 7);
   }
+  
+  return usersCookie;
+}
 
-  // Actualizar el último login, independientemente de si había datos o no
-  const now = new Date();
-  userData.lastLogin = {
-    date: now.toLocaleDateString(),
-    time: now.toLocaleTimeString()
-  };
 
-  // Guardar la cookie actualizada como string JSON
-  setCookie("userData", JSON.stringify(userData), 7);
+function userLogin(email){
+  //si el email es válido (si es null no entrará en el if)
+  if(email) {
+    //obtenemos o creamos la cookie
+    let usersCookie = initializeUsers();
+    //no hace falta comprobar si existe ya ese usuario en la cookie, porque si existe, simplemente actualizará la fecha guardada anteriormente
+    //añadimos el usuario al json de usuarios
+    usersCookie[email] = new Date().toLocaleString();
+    //y guardamos la cookie con los datos actualizados
+    setCookie("users", JSON.stringify(usersCookie), 7);
+  }
 }
 
 
 
 
 /* COOKIES */
-/* FUNCIONES */
 // GUARDAR
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
