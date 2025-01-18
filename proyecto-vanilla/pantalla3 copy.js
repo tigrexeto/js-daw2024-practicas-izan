@@ -107,7 +107,7 @@ function fillQuestionTable(email, questionsCookie) {
 }
 
 // Función para guardar una nueva pregunta en la cookie del usuario
-/* function saveQuestion() {
+function saveQuestion() {
   //obtenemos todos los valores del formulario
   const questionValue = questionInput.value;
   let selectedAnswerValue = "";
@@ -148,117 +148,7 @@ function fillQuestionTable(email, questionsCookie) {
   //AQUÍ, en lugar de con delay, que se ejecute una función que muestr pregunta
   //  controle el ESTADO y lo cambie a OK cuando ya hayan pasado 5 segundos
   showQuestions();
-} */
-// Suponiendo que ya tenemos la referencia al botón de guardar:
-
-// Función que emula el guardado de una pregunta con un retraso
-// Suponiendo que ya tenemos la referencia al botón de guardar:
-
-// Función que emula el guardado de una pregunta con un retraso
-function saveQuestion() {
-  const questionValue = questionInput.value;
-  let selectedAnswerValue = "";
-  
-  for (let option of answerOptions) {
-    if (option.checked) {
-      selectedAnswerValue = option.value;
-      break; // Salir del bucle cuando se encuentre la respuesta seleccionada
-    }
-  }
-  
-  const scoreValue = scoreInput.value;
-  
-  // Si algún campo no tiene valor, no se guarda
-  if (!questionValue || !selectedAnswerValue || !scoreValue) {
-    return;
-  }
-
-  const email = getCookie("currentUser"); // Obtener el email de la cookie
-  let questionsCookie = initializeCookie("questions"); // Inicializar las preguntas en cookies
-
-  // Crear un objeto de la nueva pregunta con estado "Cargando"
-  const newQuestion = {
-    question: questionValue,
-    answer: selectedAnswerValue,
-    score: scoreValue,
-    status: "Cargando", // Estado inicial de "Cargando"
-  };
-
-  // Agregar la nueva pregunta al array de preguntas
-  questionsCookie[email].push(newQuestion);
-
-  // Deshabilitar el botón de atrás mientras se guarda
-  const backButton = document.getElementById("backButton");
-  backButton.disabled = true;
-
-  // Mostrar la nueva pregunta en la tabla con el estado "Cargando"
-  displayQuestionInTable(newQuestion);
-
-  // Emular un retraso de 5 segundos usando una promesa
-  const delaySave = new Promise((resolve) => {
-    setTimeout(() => {
-      // Aquí se simula el guardado después de 5 segundos
-      setCookie("questions", JSON.stringify(questionsCookie), 7); // Guardar las preguntas actualizadas
-
-      // Llamamos a la función para actualizar la pregunta en la tabla a "OK"
-      updateQuestionStatusInTable(newQuestion);
-      resolve(); // Resolver la promesa después de que se guardan las preguntas
-    }, 5000); // 5 segundos de delay
-  });
-
-  // Mientras se guarda la pregunta, el usuario puede seguir introduciendo preguntas
-  resetForm(); // Restablecer el formulario para nuevas preguntas
-  toggleSaveButton(); // Rehabilitar el botón de guardar
-
-  // Cuando la promesa se resuelve (5 segundos después), habilitamos el botón de atrás
-  delaySave.then(() => {
-    backButton.disabled = false; // Habilitar el botón de "Atrás" después de guardar
-  });
 }
-
-// Función para mostrar la nueva pregunta en la tabla con el estado "Cargando"
-function displayQuestionInTable(question) {
-  const tableBody = document.getElementById("questionsTableBody");
-  
-  const row = document.createElement("tr");
-
-  const questionCell = document.createElement("td");
-  questionCell.textContent = question.question;
-  
-  const answerCell = document.createElement("td");
-  answerCell.textContent = question.answer;
-
-  const scoreCell = document.createElement("td");
-  scoreCell.textContent = question.score;
-
-  const statusCell = document.createElement("td");
-  statusCell.textContent = question.status; // Inicialmente "Cargando"
-
-  row.appendChild(questionCell);
-  row.appendChild(answerCell);
-  row.appendChild(scoreCell);
-  row.appendChild(statusCell);
-
-  tableBody.appendChild(row);
-}
-
-// Función para actualizar el estado de la pregunta en la tabla a "OK"
-function updateQuestionStatusInTable(question) {
-  // Buscar la fila correspondiente a la pregunta
-  const rows = document.getElementById("questionsTableBody").rows;
-  for (let row of rows) {
-    const cells = row.cells;
-    if (cells[0].textContent === question.question && cells[1].textContent === question.answer) {
-      // Actualizar el estado a "OK"
-      cells[3].textContent = "OK"; // Cambiar el estado de la columna "Estado" a "OK"
-      break;
-    }
-  }
-}
-
-// Agregar el evento al botón de guardar
-saveButton.addEventListener("click", saveQuestion);
-
 
 function resetForm() {
   document.getElementById("questionInput").value = "";
