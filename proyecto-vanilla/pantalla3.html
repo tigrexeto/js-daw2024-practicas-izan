@@ -12,14 +12,14 @@
         <form action="" method="get">
           <!-- Campo de texto libre para la pregunta -->
           <label for="questionInput">Pregunta:</label>
-          <input type="text" name="questionInput" id="questionInput" required />
+          <input type="text" name="questionInput" id="questionInput" />
           <br /><br />
 
           <!-- Campo con dos radio buttons para verdadero/falso -->
           <fieldset>
             <legend>Respuesta (Verdadero/Falso):</legend>
             <label>
-              <input type="radio" name="answerInput" value="true" required />
+              <input type="radio" name="answerInput" value="true" />
               Verdadero
             </label>
             <label>
@@ -45,7 +45,21 @@
 
         </form>
       </div>
-      <div class="questions"></div>
+      <div class="questions">
+        <table id="questionsTable" style="width: 100%; border: 1px solid #ddd;">
+            <thead>
+              <tr>
+                <th style="padding: 8px; background-color: #f2f2f2;">Pregunta</th>
+                <th style="padding: 8px; background-color: #f2f2f2;">Respuesta</th>
+                <th style="padding: 8px; background-color: #f2f2f2;">Puntuación</th>
+                <th style="padding: 8px; background-color: #f2f2f2;">Estado</th> 
+              </tr>
+            </thead>
+            <tbody id="questionsTableBody">
+              <!-- Las filas de las preguntas se agregarán aquí -->
+            </tbody>
+          </table>
+      </div>
     </div>
 
     <script src="cookies.js"></script>
