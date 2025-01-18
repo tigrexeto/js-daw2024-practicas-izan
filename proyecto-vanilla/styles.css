@@ -1,0 +1,54 @@
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    display: flex; /* Usamos flexbox para alinear los elementos en una fila */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: flex-start; /* Alinear los elementos en la parte superior */
+    padding: 20px;
+  }
+
+  .form {
+    flex: 1; /* Ocupa una porción del espacio disponible */
+    max-width: 300px; /* Tamaño máximo del formulario */
+    margin-right: 20px; /* Separación entre el formulario y las preguntas */
+  }
+
+  .questions {
+    flex: 2; /* Ocupa más espacio que el formulario */
+    padding: 10px;
+    border-left: 2px solid #ccc; /* Línea divisoria */
+  }
+
+  form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  button {
+    width: 100%; /* Hacer que los inputs y botones ocupen todo el ancho disponible */
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  fieldset {
+    margin-bottom: 15px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }

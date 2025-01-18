@@ -1,20 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>hola</p>
-    <form action="" method="get">
-        <label for="questionInput"></label>
-        <input type="text" name="questionInput" id="questionInput">
-        <label for="answerInput"></label>
-        <input type="checkbox" name="answerInput" id="answerInput">
-        <label for="scoreInput"></label>
-        <input type="text" name="scoreInput" id="scoreInput">
-        <!-- faltaría status por guardar, supongo que con la promesa -->
-    </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cuestionario</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="form">
+        <form action="" method="get">
+          <!-- Campo de texto libre para la pregunta -->
+          <label for="questionInput">Pregunta:</label>
+          <input type="text" name="questionInput" id="questionInput" required />
+          <br /><br />
+
+          <!-- Campo con dos radio buttons para verdadero/falso -->
+          <fieldset>
+            <legend>Respuesta (Verdadero/Falso):</legend>
+            <label>
+              <input type="radio" name="answerInput" value="true" required />
+              Verdadero
+            </label>
+            <label>
+              <input type="radio" name="answerInput" value="false" />
+              Falso
+            </label>
+          </fieldset>
+          <br />
+
+          <!-- Campo que solo permite un dígito del 0 al 9 -->
+          <label for="scoreInput">Puntuación (0-9):</label>
+          <input
+            type="text"
+            name="scoreInput"
+            id="scoreInput"
+            maxlength="1"
+            required
+          />
+          <br />
+
+          <button type="button" id="saveButton">Grabar</button>
+          <button type="button" id="backButton">Atrás</button>
+
+        </form>
+      </div>
+      <div class="questions"></div>
+    </div>
+
+    <script src="cookies.js"></script>
+    <script src="pantalla3.js"></script>
+  </body>
 </html>

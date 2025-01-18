@@ -22,3 +22,17 @@ function setCookie(cname, cvalue, exdays) {
     }
     return "";
   }
+
+
+  // Si no existe la cookie, crear un objeto vacío y guardarlo 
+  function initializeCookie(cookieName) {
+    let cookie = getCookie(cookieName);
+    if (cookie) {
+      return JSON.parse(cookie);
+    } else {
+      let defaultValue = {};
+      setCookie(cookieName, JSON.stringify(defaultValue), 7);
+      return defaultValue;
+    }
+  }
+  

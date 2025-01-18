@@ -110,28 +110,13 @@ function validateEmail() {
   }
 }
 
-function initializeUsers() {
-  //intentamos obtener la cookie existente
-  let usersCookie = getCookie("users");
-
-  // Si existe la cookie, la parseamos de string JSON a objeto
-  if (usersCookie) {
-    usersCookie = JSON.parse(usersCookie);
-  } else {
-    // Si no existe, crear un nuevo objeto vacío
-    usersCookie = {};
-    // Y guardar ese objeto vacío en la cookie
-    setCookie("users", JSON.stringify(usersCookie), 7);
-  }
-
-  return usersCookie;
-}
 
 function userLogin(email) {
   //si el email es válido (si es null no entrará en el if)
   if (email) {
-    //obtenemos o creamos la cookie
-    let usersCookie = initializeUsers();
+    //obtenemos o creamos las cookies
+    let usersCookie = initializeCookie("users");
+    let questionsCookie = initializeCookie("questions");
     
     //previousLogin: Se actualiza solo si ya existe un valor previo en lastLogin
     let previousLogin = null;
@@ -145,7 +130,15 @@ function userLogin(email) {
       previousLogin: previousLogin,
     };
 
-    // Guardamos la cookie actualizada
+    //si todavía no existe, inicializar en la cookie de preguntas el valor de la clave de usuario
+    //  como array vacío que rellenaremos luego
+    if (!questionsCookie[email]) {
+      questionsCookie[email] = [];
+    }
+
+    console.log("questionsCookie antes de guardar:", questionsCookie);
+    // Guardamos las cookies actualizadas/creadas
     setCookie("users", JSON.stringify(usersCookie), 7);
+    setCookie("questions", JSON.stringify(questionsCookie), 7);
   }
 }
