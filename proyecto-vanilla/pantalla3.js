@@ -7,6 +7,41 @@ document.addEventListener("DOMContentLoaded", () => {
 const saveButton = document.getElementById("saveButton");
 saveButton.addEventListener("click", saveQuestion);
 
+
+// Se agregan los listeners para validar el formulario en tiempo real
+const questionInput = document.getElementById("questionInput");
+const answerOptions = document.getElementsByName("answerInput");
+const scoreInput = document.getElementById("scoreInput");
+
+//Habilitar/deshabilitar el botón de grabar por cada interacción con los inputs,
+//en función de si han sido todos rellenados o no
+questionInput.addEventListener("input", toggleSaveButton);
+scoreInput.addEventListener("input", toggleSaveButton);
+//en el caso de los radio buttons, comprobar cuando haya cambio en su selección
+for (let option of answerOptions) {
+  option.addEventListener("change", toggleSaveButton);
+}
+
+function toggleSaveButton() {
+  const question = questionInput.value;
+  let selectedAnswer = "";
+  for (let option of answerOptions) {
+    if (option.checked) {
+      //rellenamos la variable de selectedAnswer con el value del radiobutton clicado
+      selectedAnswer = option.value;
+      break;  // Salir del bucle cuando se encuentre la respuesta seleccionada
+    }
+  }
+  const score = scoreInput.value;
+
+  // Activar el botón de guardar solo si todos los campos están completos
+  if (question && selectedAnswer && score) {
+    saveButton.disabled = false;
+  } else {
+    saveButton.disabled = true;
+  }
+}
+
 function showQuestions(delay = false) {
   /* Las cookies pueden almacenar valores simples como cadenas, números o booleanos, y
    no es necesario hacer JSON.parse cuando obtienes un valor que no está en formato JSON */
@@ -62,21 +97,7 @@ function fillQuestionTable(email, questionsCookie) {
 // Función para guardar una nueva pregunta en la cookie del usuario
 function saveQuestion() {
   //obtenemos todos los valores del formulario
-  const questionInput = document.getElementById("questionInput").value;
-  const answerOptions = document.getElementsByName("answerInput");
-  let selectedAnswer = "";
-  for (let option of answerOptions) {
-    if (option.checked) {
-      selectedAnswer = option.value;
-    }
-  }
-  const scoreInput = document.getElementById("scoreInput").value;
-
-  // Validar que todos los campos estén completos
-  if (!questionInput || !selectedAnswer || !scoreInput) {
-    alert("Por favor, completa todos los campos.");
-    return;
-  }
+  //refactorizado a togglesavebutton
 
   const email = getCookie("currentUser"); // Obtener el email de la cookie
 
@@ -91,7 +112,6 @@ function saveQuestion() {
     status: "pending", // O cualquier valor por defecto que desees
   });
 
-  console.log("questionsCookie antes de guardar:", questionsCookie);
   // Guardar las preguntas actualizadas
   setCookie("questions", JSON.stringify(questionsCookie), 7);
 
