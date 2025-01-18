@@ -57,10 +57,10 @@ function showQuestions(delay = false) {
   let email = getCookie("currentUser");
   /* Para questions, necesitas parsear el valor porque es un objeto almacenado como una cadena JSON */
   let questionsCookie = JSON.parse(getCookie("questions"));
+  let tableBody = document.getElementById("questionsTableBody");
   //si hay preguntas guardadas de ese usuario, las mostramos, con delay o no
   if (questionsCookie[email] && questionsCookie[email].length > 0) {
     if (delay) {
-      let tableBody = document.getElementById("questionsTableBody");
       //mostrar mensaje de carga mientras pasan los 5 segundos
       tableBody.textContent = "Cargando las preguntas...";
       setTimeout(() => {
@@ -69,6 +69,7 @@ function showQuestions(delay = false) {
         fillQuestionTable(email, questionsCookie);
       }, 5000);
     } else {
+      tableBody.innerHTML = "";
       fillQuestionTable(email, questionsCookie);
     }
   }
@@ -95,7 +96,7 @@ function fillQuestionTable(email, questionsCookie) {
 
     let tdStatus = document.createElement("td");
     tdStatus.style.padding = "8px";
-    tdStatus.textContent = question.status || "Pendiente"; // Si no hay estado, asignamos "Pendiente"
+    tdStatus.textContent = question.status;
 
     row.appendChild(tdPregunta);
     row.appendChild(tdRespuesta);
@@ -106,116 +107,80 @@ function fillQuestionTable(email, questionsCookie) {
   });
 }
 
-// Función para guardar una nueva pregunta en la cookie del usuario
-/* function saveQuestion() {
-  //obtenemos todos los valores del formulario
-  const questionValue = questionInput.value;
-  let selectedAnswerValue = "";
-  for (let option of answerOptions) {
-    if (option.checked) {
-      //rellenamos la variable de selectedAnswer con el value del radiobutton clicado
-      selectedAnswerValue = option.value;
-      break; // Salir del bucle cuando se encuentre la respuesta seleccionada
-    }
-  }
-  const scoreValue = scoreInput.value;
-
-  //comprobación extra, quizá no necesaria
-  // si alguno de los inputs no tienen value, interrumpir la ejecución de la función de guardado
-  if (!questionValue || !selectedAnswerValue || !scoreValue) {
-    return;
-  }
-
-  const email = getCookie("currentUser"); // Obtener el email de la cookie
-  // Obtener las preguntas guardadas en la cookie o inicializarla si no existe
-  let questionsCookie = initializeCookie("questions");
-  // Agregar la nueva pregunta al array de preguntas del usuario
-  questionsCookie[email].push({
-    question: questionValue,
-    answer: selectedAnswerValue,
-    score: scoreValue,
-    status: "pending", // O cualquier valor por defecto que desees
-  });
-
-  // Guardar las preguntas actualizadas
-  setCookie("questions", JSON.stringify(questionsCookie), 7);
-
-  //resetear formulario
-  //desactivar botón de grabado
-  //rellenar tabla
-  resetForm();
-  toggleSaveButton();
-  //AQUÍ, en lugar de con delay, que se ejecute una función que muestr pregunta
-  //  controle el ESTADO y lo cambie a OK cuando ya hayan pasado 5 segundos
-  showQuestions();
-} */
-// Suponiendo que ya tenemos la referencia al botón de guardar:
 
 // Función que emula el guardado de una pregunta con un retraso
-// Suponiendo que ya tenemos la referencia al botón de guardar:
 
-// Función que emula el guardado de una pregunta con un retraso
-function saveQuestion() {
-  const questionValue = questionInput.value;
-  let selectedAnswerValue = "";
-  
-  for (let option of answerOptions) {
-    if (option.checked) {
-      selectedAnswerValue = option.value;
-      break; // Salir del bucle cuando se encuentre la respuesta seleccionada
+  function saveQuestion() {
+    const questionValue = questionInput.value;
+    let selectedAnswerValue = "";
+    
+    for (let option of answerOptions) {
+      if (option.checked) {
+        selectedAnswerValue = option.value;
+        break; // Salir del bucle cuando se encuentre la respuesta seleccionada
+      }
     }
+    
+    const scoreValue = scoreInput.value;
+    
+    // Si algún campo no tiene valor, no se guarda
+    if (!questionValue || !selectedAnswerValue || !scoreValue) {
+      return;
+    }
+  
+    const email = getCookie("currentUser"); // Obtener el email de la cookie
+    let questionsCookie = initializeCookie("questions"); // Inicializar las preguntas en cookies
+  
+  
+    // Crear un objeto de la nueva pregunta con estado "Cargando"
+    const newQuestion = {
+      question: questionValue,
+      answer: selectedAnswerValue,
+      score: scoreValue,
+      status: "Cargando", // Estado inicial de "Cargando"
+    };
+  
+    // Agregar la nueva pregunta al array de preguntas
+    questionsCookie[email].push(newQuestion);
+  
+    console.log(newQuestion + "fuera del delay");
+    // Guardar la cookie con las nuevas preguntas
+    setCookie("questions", JSON.stringify(questionsCookie), 7);
+  
+    // Deshabilitar el botón de atrás mientras se guarda
+    const backButton = document.getElementById("backButton");
+    backButton.disabled = true;
+  
+    // Mostrar la nueva pregunta en la tabla con el estado "Cargando"
+    displayQuestionInTable(newQuestion);
+  
+    // Emular un retraso de 5 segundos usando una promesa
+    const delaySave = new Promise((resolve) => {
+      setTimeout(() => {
+        // Aquí se simula el guardado después de 5 segundos
+        setCookie("questions", JSON.stringify(questionsCookie), 7); // Guardar las preguntas actualizadas
+  
+        // Actualizamos el estado de la pregunta en la cookie a "OK"
+        newQuestion.status = "OK";
+        
+        // Actualizamos la cookie con el nuevo estado
+        setCookie("questions", JSON.stringify(questionsCookie), 7);
+  
+        resolve(); // Resolver la promesa después de que se guardan las preguntas
+      }, 5000); // 5 segundos de delay
+    });
+  
+    // Mientras se guarda la pregunta, el usuario puede seguir introduciendo preguntas
+    resetForm(); // Restablecer el formulario para nuevas preguntas
+    toggleSaveButton(); // Rehabilitar el botón de guardar
+  
+    // Cuando la promesa se resuelve (5 segundos después), habilitamos el botón de atrás
+    delaySave.then(() => {
+      showQuestions();
+      backButton.disabled = false; // Habilitar el botón de "Atrás" después de guardar
+    });
   }
   
-  const scoreValue = scoreInput.value;
-  
-  // Si algún campo no tiene valor, no se guarda
-  if (!questionValue || !selectedAnswerValue || !scoreValue) {
-    return;
-  }
-
-  const email = getCookie("currentUser"); // Obtener el email de la cookie
-  let questionsCookie = initializeCookie("questions"); // Inicializar las preguntas en cookies
-
-  // Crear un objeto de la nueva pregunta con estado "Cargando"
-  const newQuestion = {
-    question: questionValue,
-    answer: selectedAnswerValue,
-    score: scoreValue,
-    status: "Cargando", // Estado inicial de "Cargando"
-  };
-
-  // Agregar la nueva pregunta al array de preguntas
-  questionsCookie[email].push(newQuestion);
-
-  // Deshabilitar el botón de atrás mientras se guarda
-  const backButton = document.getElementById("backButton");
-  backButton.disabled = true;
-
-  // Mostrar la nueva pregunta en la tabla con el estado "Cargando"
-  displayQuestionInTable(newQuestion);
-
-  // Emular un retraso de 5 segundos usando una promesa
-  const delaySave = new Promise((resolve) => {
-    setTimeout(() => {
-      // Aquí se simula el guardado después de 5 segundos
-      setCookie("questions", JSON.stringify(questionsCookie), 7); // Guardar las preguntas actualizadas
-
-      // Llamamos a la función para actualizar la pregunta en la tabla a "OK"
-      updateQuestionStatusInTable(newQuestion);
-      resolve(); // Resolver la promesa después de que se guardan las preguntas
-    }, 5000); // 5 segundos de delay
-  });
-
-  // Mientras se guarda la pregunta, el usuario puede seguir introduciendo preguntas
-  resetForm(); // Restablecer el formulario para nuevas preguntas
-  toggleSaveButton(); // Rehabilitar el botón de guardar
-
-  // Cuando la promesa se resuelve (5 segundos después), habilitamos el botón de atrás
-  delaySave.then(() => {
-    backButton.disabled = false; // Habilitar el botón de "Atrás" después de guardar
-  });
-}
-
 // Función para mostrar la nueva pregunta en la tabla con el estado "Cargando"
 function displayQuestionInTable(question) {
   const tableBody = document.getElementById("questionsTableBody");
@@ -242,19 +207,6 @@ function displayQuestionInTable(question) {
   tableBody.appendChild(row);
 }
 
-// Función para actualizar el estado de la pregunta en la tabla a "OK"
-function updateQuestionStatusInTable(question) {
-  // Buscar la fila correspondiente a la pregunta
-  const rows = document.getElementById("questionsTableBody").rows;
-  for (let row of rows) {
-    const cells = row.cells;
-    if (cells[0].textContent === question.question && cells[1].textContent === question.answer) {
-      // Actualizar el estado a "OK"
-      cells[3].textContent = "OK"; // Cambiar el estado de la columna "Estado" a "OK"
-      break;
-    }
-  }
-}
 
 // Agregar el evento al botón de guardar
 saveButton.addEventListener("click", saveQuestion);
