@@ -27,10 +27,40 @@ function procesarFetch(numsecs, user) {
   const url = `https://reqres.in/api/users/${user}?delay=${numsecs}`;
   fetch(url)
     .then((response) =>{
+      /* Verificación al hacer petición, antes de procesarla. */
       if(!response.ok){
-        throw new Error(`Error en la petición: ${response.status}`);
+        document.getElementById('status').textContent = response.status;
+        throw new Error(`Error HTTP: ${response.status}`);
       }
-      //en caso de que haya ido bien
-      //controlar si user está entre 1 y 12, no? dónde.
+      //si todo va bien
+      return response.json();
     })
+    .then((data) => {
+      document.getElementById('id').textContent = data.data.id;
+      document.getElementById('email').textContent = data.data.email;
+
+       //hacemos el post, pero devolvemos el fetch para poder seguir operando
+      /*  Aquí estamos emulando la grabación de un usuario en la base de datos. 
+      Esa llamada post devuelve un JSON, que dentro del campo "json" tiene lo 
+      que se ha enviado en el body */
+      return fetch('https://httpbin.org/post', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data.data)
+        })
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      document.getElementById('name').textContent = data.json.first_name;
+
+      //para acabar, mostrar status
+      document.getElementById('status').textContent = 200;
+    })
+    .catch((error) => {
+        console.log(error);
+      })
 }
