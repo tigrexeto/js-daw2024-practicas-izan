@@ -1,0 +1,29 @@
+<div *ngIf="products && products.length">
+  <div style="background-color: blue; color: white; padding: 0.75rem">
+    My product's list
+  </div>
+  <div style="padding: 1rem">
+    <div>
+      <table style="width: 100%">
+        <thead>
+          <tr style="background-color: lightgrey; text-align: center">
+            <th>{{ headers.desc }}</th>
+            <th>{{ headers.price }}</th>
+            <th>{{ headers.avail }}</th>
+            <th>{{ headers.brand }}</th>
+            <th>{{ headers.model }}</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+            <td>{{ product.desc }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.avail }}</td>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.model }}</td>
+            </tr>
+            </tbody>
+      </table>
+    </div>
+  </div>
+</div>
