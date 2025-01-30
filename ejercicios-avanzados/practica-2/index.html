@@ -1,0 +1,19 @@
+<!-- Crea una función que reciba un número en milisegundos y genere un temporizador que
+escriba el texto "Tiempo concluido" cuando pasen esos milisegundos.
+Realmente la función no escribe, genera una promesa cuyo resultado es el texto nombrado.
+En caso de que no se cumpla la promesa, el resultado será el texto: "El tiempo no va bien".
+Se decidirá que la promesa no se ha cumplido cuando pase el doble de tiempo que el
+indicado.
+Crea un programa que invoque esta función (con 5 segundos) y escriba por pantalla
+(elemento HTML) los resultados de la promesa.
+Nota: para el temporizador podéis usar setTimeout:
+El método setTimeout tiene dos parámetros: el primero es la función que se ejecutará
+cuando se cumpla el tiempo, el segundo es un valor numérico que indica el tiempo a
+esperar en milisegundos antes de ejecutar el código de la función. Ejemplo:
+setTimeout(()=>alert("Hola"),5000);
+El método setTimeout devuelve un número que identifica al temporizador en sí. Ese número
+se puede usar para cancelar el temporizador mediante clearTimeout. Ejemplo:
+var templ=setTimeout(()=>alert("Hola"),5000);
+clearTimeOut(templ);
+Tal cual está escrito el código anterior, jamás aparecerá el mensaje Hola porque se cancela
+el temporizador inmediatamente (no habrán pasado los 5 segundos). -->
