@@ -1,50 +1,50 @@
-// Aquí definimos la función timeout
 function timeOut(ms) {
-    return new Promise(function (resolve) {
-      let countdown = Math.floor(ms / 1000); // Convertimos ms a segundos
-      const timerSpan = document.getElementById("timer"); // Referencia al span donde mostramos la cuenta atrás
-  
-      // Función para hacer la cuenta atrás
-      function countdownTimer() {
-        timerSpan.textContent = countdown + " segundos restantes"; // Mostrar el tiempo restante en el DOM
-        if (countdown > 0) {
-          countdown--; // Reducimos el contador
-          setTimeout(countdownTimer, 1000); // Llamamos a countdownTimer cada segundo
-        } else {
-          resolve(); // Cuando llega a 0, resolvemos la promesa
-        }
+  return new Promise(function (resolve) {
+    let countdown = Math.floor(ms / 1000); // Convertimos ms a segundos
+    const timerSpan = document.getElementById("timer"); // Referencia al span donde mostramos la cuenta atrás
+
+    //Función para hacer la cuenta atrás
+    function countdownTimer() {
+      //mostrar segundos restantes
+      timerSpan.textContent = countdown;
+      if (countdown > 0) {
+        countdown--; //reducir un segundo
+        //Llamamos desde un timer para que ejecute a cada segundo esta función hasta que el contador llegue a 0
+        setTimeout(countdownTimer, 1000);
+      } else {
+        //Resolver cuando llegue a 0 el countdown
+        resolve();
       }
-  
-      countdownTimer(); // Iniciamos la cuenta atrás
-    });
-  }
-  
-  // Llamamos a la función timeout con 5000 ms (5 segundos)
-  timeOut(5000).then(() => {
-    // Mostrar un alert con el mensaje cuando la cuenta atrás llegue a 0
-    alert("¡Haz click aquí para ir al video!");
-    // Redirigir a la página del video al hacer clic en el alert
-    window.location.href = "video.html";
-  });
-  
-  // Aquí manejamos las interacciones con el video en la página del video
-  const video = document.getElementById("video");
-  
-  // Al hacer clic en el video con el botón izquierdo, lo pausamos o reproducimos
-  video.addEventListener('click', function () {
-    if (video.paused) {
-      video.play(); // Si está pausado, reproducimos
-    } else {
-      video.pause(); // Si está reproduciéndose, lo pausamos
     }
+    //Llamamos una vez a la función la primera vez, después vuelta a llamar dentro en el settimeout
+    countdownTimer();
   });
-  
-  // Al hacer clic derecho en el video, mostramos el tiempo total en minutos y segundos
-  video.addEventListener('contextmenu', function (event) {
-    event.preventDefault(); // Prevenimos el menú contextual
-    const duration = video.duration; // Obtenemos la duración total del video en segundos
-    const minutes = Math.floor(duration / 60); // Convertimos a minutos
-    const seconds = Math.floor(duration % 60); // Obtenemos los segundos restantes
-    alert(`Duración del video: ${minutes} minutos y ${seconds} segundos`);
-  });
-  
+}
+
+//Llamamos a timeout con 5 segundos
+timeOut(5000).then(() => {
+  //Cuando la promesa resuelva, mostrar el alert y redirigir
+  alert("Click aquí para ir al vídeo");
+  window.location.href = "video.html";
+});
+
+/* Código para manejo de interacciones con vídeo, API multimedia */
+const video = document.getElementById("video");
+
+//Click izquierdo, play o pause
+video.addEventListener("click", function () {
+  if (video.paused) {
+    video.play();
+  } else {
+    video.pause();
+  }
+});
+
+//Click derecho, mostrar en qué momento del vídeo está
+video.addEventListener("contextmenu", function (event) {
+  event.preventDefault();
+  const currentTime = video.currentTime;
+  const minutes = Math.floor(currentTime / 60);
+  const seconds = Math.floor(currentTime % 60);
+  alert(`Momento actual del vídeo: ${minutes} minutos y ${seconds} segundos`);
+});
