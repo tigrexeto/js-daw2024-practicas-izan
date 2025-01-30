@@ -1,10 +1,10 @@
 function temporizador(ms) {
   return new Promise((resolve, reject) => {
-    const timer1 = setTimeout(() => {
+    setTimeout(() => {
       resolve("Tiempo concluido");
     }, ms);
 
-    const timer2 = setTimeout(() => {
+    setTimeout(() => {
       reject("El tiempo no va bien");
     }, ms * 2);
     
